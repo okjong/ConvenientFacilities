@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.LoginActivity"
+    android:background="@color/brand">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Convenient Facilities "
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/kmi_bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:padding="16dp"/>
+    <TextView
+        android:id="@+id/tv_go"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Look Around"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/tv_title"
+        android:background="@drawable/bg_tv_go"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"/>
+
+    <!--  밑에서부터 화면배치  -->
+    <TextView
+        android:id="@+id/tv_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="회원가입"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:background="@drawable/bg_login_tv"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginBottom="40dp"
+        android:layout_alignParentBottom="true"/>
+
+    <LinearLayout
+        android:id="@+id/layout_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/bg_login_tv"
+        android:layout_above="@id/tv_signup"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginBottom="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_baseline_email_24"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이메일로 로그인"
+            android:textColor="@color/black"
+            android:layout_marginLeft="8dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_login_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_above="@id/layout_email"
+        android:layout_marginBottom="16dp">
+
+        <ImageView
+            android:id="@+id/btn_login_kakao"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icon_kakako"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
+        <ImageView
+            android:id="@+id/btn_login_google"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icon_google"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
+        <ImageView
+            android:id="@+id/btn_login_naver"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icon_naver"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/layout_login_btn"
+        android:text="간편 로그인"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"/>
+
+</RelativeLayout>
