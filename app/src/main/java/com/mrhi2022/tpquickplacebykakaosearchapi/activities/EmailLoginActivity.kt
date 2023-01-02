@@ -17,10 +17,10 @@ class EmailLoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_email_login)
+
         setContentView(binding.root)
 
-        //툴바에 업버튼 만들기
+
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -29,7 +29,7 @@ class EmailLoginActivity : AppCompatActivity() {
         binding.btnSignIn.setOnClickListener { clickSignIn() }
     }
 
-    //업버튼 클릭시에 액티비티를 종료
+
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return super.onSupportNavigateUp()
@@ -40,28 +40,27 @@ class EmailLoginActivity : AppCompatActivity() {
         var email= binding.etEmail.text.toString()
         var password= binding.etPassword.text.toString()
 
-        // Firebase Firestore DB 에서 이메일 로그인 여부 확인
+
         val db:FirebaseFirestore = FirebaseFirestore.getInstance()
 
         db.collection("emailUsers")
             .whereEqualTo("email", email)
             .whereEqualTo("password", password)
             .get().addOnSuccessListener {
-                if( it.documents.size > 0 ){ // where 조건에 맞는 데이터가 있다는 것임.
-                    //로그인 성공
-                    // [ 회원정보를 다른 Activity 에서도 사용할 가능성 있으므로..전역변수처럼 클래스이름만으로 사용가능한 변수에 저장하기 ]
-                    var id= it.documents[0].id  //document 의 랜덤한 식별자
+                if( it.documents.size > 0 ){
+
+                    var id= it.documents[0].id
                     G.userAccount= UserAccount(id, email)
 
-                    // 로그인 성공했으니 곧바로 MainActivity 로 이동
+
                     val intent:Intent = Intent(this, MainActivity::class.java)
 
-                    // 다른 액티비티로 넘어가면서 task에 있는 모든 액티비티들을 제거하고 새로운 task로 시작
+
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
                 }else{
-                    //로그인 실패
+
                     AlertDialog.Builder(this).setMessage("이메일과 비밀번호를 다시 확인해주시기 바랍니다.").show()
                     binding.etEmail.requestFocus()
                     binding.etEmail.selectAll()

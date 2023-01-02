@@ -14,13 +14,12 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <!-- Splash 액티비티 스타일 테마 -->
+
     <style name="SplashTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-<!--        <item name="android:windowBackground">@color/black</item>-->
-        <!-- 여러장의 이미지를 겹쳐서 하나의 그림으로 만드는 layer-list 로 만든 스플래시 이미지 배경적용  -->
+
         <item name="android:windowBackground">@drawable/splash</item>
 
-        <!-- 상태표시줄이 보이지 않도록..       -->
+
         <item name="android:windowFullscreen">true</item>
     </style>
 

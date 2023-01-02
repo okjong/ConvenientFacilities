@@ -11,8 +11,8 @@ data class Place(
     var phone: String,
     var address_name: String,
     var road_address_name: String,
-    var x: String,   // 경도 - longitude
-    var y: String,   // 위도 - latitude
-    var place_url: String,  //장소에 대한 정보 웹사이트
-    var distance: String // 중심좌표로(내 위치)부터의 거리. 단위 meter [단, 요청파라미터로 x,y를 줬을때만 값이 존재함]
+    var x: String,
+    var y: String,
+    var place_url: String,
+    var distance: String
 )

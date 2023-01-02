@@ -33,30 +33,29 @@ class MainActivity : AppCompatActivity() {
 
     val binding:ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
-    // 카카오 지역검색(로컬) API -- 카카오개발자 사이트 참고
-    //1. 검색 장소명
-    var searchQuery:String= "화장실"  //앱 초기 키워드 - 내 주변 개방 화장실
-    //2. 현재 내위치 정보 객체 (위도,경도 정보를 멤버로 보유)
+
+    var searchQuery:String= "화장실"
+
     var mylocation:Location?= null
 
-    // [ Google Fused API 사용 - 위치정보 라이브러리  play-services-location ]
+
     val providerClient: FusedLocationProviderClient by lazy { LocationServices.getFusedLocationProviderClient(this) }
 
-    // 카카오 검색 결과 응답객체 참조변수 [멤버변수]
+
     var searchPlaceResponse: KakaoSearchPlaceResponse? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_main)
+
         setContentView(binding.root)
 
-        // 툴바를 제목줄로 대체하여 설정
+
         setSupportActionBar(binding.toolbar)
 
-        // 첫 실행될 프레그먼트를 동적 추가
+
         supportFragmentManager.beginTransaction().add(R.id.container_fragment, SearchListFragment()).commit()
 
-        //탭레이아웃의 탭버튼 클릭시에 보여줄 프레그먼트를 변경
+
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 if(tab?.text=="LIST"){
@@ -74,33 +73,29 @@ class MainActivity : AppCompatActivity() {
 
         })
 
-        // 소프트키보드의 검색버튼 클릭했을때.
+
         binding.etSearch.setOnEditorActionListener { textView, i, keyEvent ->
             searchQuery= binding.etSearch.text.toString()
             searchPlaces()
 
-            // return 값이 있는 메소드
-            // 소프트키보드의 액션버튼이 클릭되었을때 여기서 모든 액션을 소모하지 않겠다는 뜻으로 false 리턴
-            // SAM변환으로 메소드의 코드를 축약했다면.. return 키워드도 생략해야만 함.
+
             false
         }
 
-        //단축 검색어 choice 버튼들에 클릭이벤트 리스너 처리하기
+
         setChoiceButtonsListener()
 
-        //내 위치정보 제공에 대한 사용자 동적퍼미션
+
         val permissions:Array<String> = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
         if(  checkSelfPermission(permissions[0]) == PackageManager.PERMISSION_DENIED  ){
-            //허가 되어 있지 않으므로 권한을 요청하는 다이얼로그 보이기
+
             requestPermissions(permissions, 10)
         }else{
-            //허가 되어 있으므로 곧바로 내 위치값을 요구하기
+
             requestMyLocation()
         }
 
-    }//onCreate method..
-
-    // 퍼미션요청 다이얼로그의 [허가/거부]선택이 되었을때 자동 발동하는 콜백메소드
+    }
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -113,14 +108,13 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    // 내 위치정보를 가져오는 기능 메소드
+
     private fun requestMyLocation(){
 
-        //위치검색을 위한 기준(요청)객체가 필요함.
+
         val request:LocationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000).build()
 
 
-        // 실시간 위치정보 갱신 요청!
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -135,27 +129,27 @@ class MainActivity : AppCompatActivity() {
         providerClient.requestLocationUpdates(request, locationCallback, Looper.getMainLooper())
     }
 
-    // 위치정보 갱신될때 마다 발동하는 Callback 객체 생성
+
     private val locationCallback:LocationCallback = object : LocationCallback(){
         override fun onLocationResult(p0: LocationResult) {
 
             mylocation= p0.lastLocation
 
-            // 위치 탐색이 끝났으니 내 위치 정보 업데이트는 종료
+
             providerClient.removeLocationUpdates(this) //this : locationCallback
 
-            // 내 위치정보도 있으니.. 카카오 로컬 API 키워드 검색작업 시작!
+
             searchPlaces()
         }
     }
 
-    // 카카오 키워드 로컬 장소 검색 API 작업 기능 메소드
+
     private fun searchPlaces(){
 
-        //검색에 필요한 요청변수들.. 확인 [ 검색어, 내 위치 좌표 ]
+
         Toast.makeText(this, " ${searchQuery} : ${mylocation?.latitude} , ${mylocation?.longitude} ", Toast.LENGTH_SHORT).show()
 
-        // Kakao keyword search API... base url 레트로핏 객체 생성
+
         val retrofit: Retrofit = RetrofitHelper.getRetrofitInstance("https://dapi.kakao.com")
         val retrofitApiService: RetrofitApiService = retrofit.create(RetrofitApiService::class.java)
         retrofitApiService.searchPlaces(searchQuery, mylocation?.longitude.toString(), mylocation?.latitude.toString()).enqueue(object :  Callback<KakaoSearchPlaceResponse>{
@@ -163,19 +157,19 @@ class MainActivity : AppCompatActivity() {
                 call: Call<KakaoSearchPlaceResponse>,
                 response: Response<KakaoSearchPlaceResponse>
             ) {
-                // 응답된 json문자열을 파싱한 객체 참조하기
+
                 searchPlaceResponse= response.body()
 
-                // 먼저 데이터가 온전히 잘 왔는지 파악하기 위해..
+
                 var meta: PlaceMeta?= searchPlaceResponse?.meta
                 var documents:MutableList<Place>? = searchPlaceResponse?.documents
 
                 AlertDialog.Builder(this@MainActivity).setMessage("${meta?.total_count} \n ${ documents?.get(0)?.place_name }").show()
 
-                //무조건 검색이 완료되면 List Fragment를 먼저 보여주기.
+
                 supportFragmentManager.beginTransaction().replace(R.id.container_fragment, SearchListFragment()).commit()
 
-                // 탭버튼의 위치를 List Fragment Tab 으로 변경
+
                 binding.tabLayout.getTabAt(0)?.select()
 
             }
@@ -188,7 +182,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    // 단축 검색어 버튼들에 리스너를 설정하는 작업 메소드
+
     private fun setChoiceButtonsListener(){
         binding.layoutChoice.choiceWc.setOnClickListener { clickChoice(it) }
         binding.layoutChoice.choiceMovie.setOnClickListener { clickChoice(it) }
@@ -204,21 +198,21 @@ class MainActivity : AppCompatActivity() {
         binding.layoutChoice.choiceCafe.setOnClickListener { clickChoice(it) }
     }
 
-    //이전에 선택했던 버튼의 아이디값 저장용 변수
+
     var choiceID= R.id.choice_wc
 
     private fun clickChoice(view: View){
 
-        // 이전에 선택되었던 뷰의 배경을 하얀배경으로 변경
+
         findViewById<ImageView>(choiceID).setBackgroundResource(R.drawable.bg_choice)
 
-        // 선택한 단축 검색어 버튼의 배경그림을 변경
+
         view.setBackgroundResource(R.drawable.bg_choice_selected)
 
-        // 다음번 클릭때 이전 선택 버튼의 id를 찾을 수 있도록..
+
         choiceID= view.id
 
-        //선택한 뷰에 따라 검색어값을 변경
+
         when( view.id ){
             R.id.choice_wc-> searchQuery="화장실"
             R.id.choice_movie-> searchQuery="영화관"
@@ -234,10 +228,10 @@ class MainActivity : AppCompatActivity() {
             R.id.choice_cafe-> searchQuery="카페"
         }
 
-        //새로운 검색 요청
+
         searchPlaces()
 
-        //검색창에 검색어글씨가 있다면 지우기
+
         binding.etSearch.text.clear()
         binding.etSearch.clearFocus()
 

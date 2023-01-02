@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- MapView 를 배치할 뷰그룹 -->
+
     <RelativeLayout
         android:id="@+id/container_mapview"
         android:layout_width="match_parent"

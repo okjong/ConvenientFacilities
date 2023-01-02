@@ -40,8 +40,7 @@
         android:layout_below="@id/toolbar"
         android:scrollbars="none">
 
-        <!-- 이 안에 작성할 뷰들이 너무 많아서 지저분해 보일 듯 하여 -->
-        <!-- 별도의 xml에 뷰들을 배치하고 include 로 적용  -->
+
         <include
             android:id="@+id/layout_choice"
             layout="@layout/choice_list" />

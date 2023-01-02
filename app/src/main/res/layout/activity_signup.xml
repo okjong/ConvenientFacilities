@@ -9,7 +9,7 @@
     android:background="@color/brand"
     tools:context=".activities.SignupActivity">
 
-    <!-- 업버튼 만들기 위한 툴바  -->
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
