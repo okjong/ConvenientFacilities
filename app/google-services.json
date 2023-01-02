@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:305535171842:android:dbee0a09e97a9b232b961b",
         "android_client_info": {
-          "package_name": "com.mrhi2022.tpquickplacebykakaosearchapi"
+          "package_name": "com.jeilpharm.tpquickplacebykakaosearchapi"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "305535171842-qaj6vmm9smfku79lv8sjqdg3kh684rmf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.mrhi2022.tpquickplacebykakaosearchapi",
+            "package_name": "com.jeilpharm.tpquickplacebykakaosearchapi",
             "certificate_hash": "482003a457413316d5ca8a2f2ce90e2a50ff2be8"
           }
         },
